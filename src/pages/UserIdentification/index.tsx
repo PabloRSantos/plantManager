@@ -1,5 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
+import { Keyboard } from 'react-native';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import Button from '../../components/Button';
 
 
@@ -28,7 +30,7 @@ const UserIdentification: React.FC = () => {
 
   return (
     <Container>
-      <Wrapper>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <Form>
           <Emoji>
             {isFilled ? 
@@ -49,7 +51,7 @@ const UserIdentification: React.FC = () => {
             <Button onPress={() => navigation.navigate('Confirmation')} />
           </Footer>
         </Form>
-      </Wrapper>
+          </TouchableWithoutFeedback>
     </Container>
   );
 };
