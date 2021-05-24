@@ -73,7 +73,7 @@ const PlantSave: React.FC = () => {
   }
 
   return (
-    <Scroll>
+    <Scroll showsVerticalScrollIndicator={false}>
 
     <Container>
       <PlantInfo>

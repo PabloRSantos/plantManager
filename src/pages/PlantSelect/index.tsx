@@ -36,7 +36,7 @@ const PlantSelect: React.FC = () => {
 
   const navigation = useNavigation();
 
-  const fetchPlants = useCallback(async () => {
+  const fetchPlants = async () => {
     const { data } = await api.get(
       `plants?_sort=name&_order=asc&_page=${page}&_limit=8`
     );
@@ -54,7 +54,7 @@ const PlantSelect: React.FC = () => {
     }
     setLoading(false);
     setLoadingMore(false);
-  }, []);
+  }
 
   useEffect(() => {
     const fetchEnviroment = async () => {

@@ -14,6 +14,20 @@ export const Container = styled(RectButton)`
   margin: 5px 0;
 `;
 
+export const AnimatedContainer = styled.View``
+export const ButtonRemove = styled(RectButton)`
+  width: 120px;
+  height: 85px;
+  background-color: ${colors.red};
+  margin-top: 15px;
+  border-radius: 20px;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  right: 20px;
+  padding-left: 15px;
+`
+
 export const Title = styled.Text`
   flex: 1;
   font-family: ${fonts.heading};

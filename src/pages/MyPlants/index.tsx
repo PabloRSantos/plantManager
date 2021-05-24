@@ -12,10 +12,12 @@ import {
   List,
 } from "./styles";
 import waterDropImg from "../../assets/waterdrop.png";
-import { loadPlant, PlantProps } from "../../libs/storage";
+import { loadPlant, PlantProps, removePlant } from "../../libs/storage";
 import { formatDistance } from "date-fns";
 import { pt } from "date-fns/locale";
 import PlantCardSecondary from "../../components/PlantCardSecondary";
+import Load from "../../components/Load";
+import { Alert } from "react-native";
 
 const MyPlants: React.FC = () => {
   const [myPlants, setMyPlants] = useState<PlantProps[]>([]);
@@ -33,7 +35,7 @@ const MyPlants: React.FC = () => {
       );
 
       setNextWatered(
-        `Não esqueça de regar a ${plantsStoraged[0].name} à ${nextTime} horas`
+        `Não esqueça de regar a ${plantsStoraged[0].name} à ${nextTime}`
       );
       setMyPlants(plantsStoraged);
       setLoading(false);
@@ -41,6 +43,31 @@ const MyPlants: React.FC = () => {
 
     loadStorageData();
   }, []);
+
+  const handleRemove = async (plant: PlantProps) => {
+    Alert.alert('Remover', `Deseja remover a ${plant.name}`, [
+      {
+        text: 'Não 👎',
+        style: 'cancel'
+      },
+      { 
+        text: 'Sim 👍',
+        onPress: async () => {
+          try {
+            await removePlant(plant.id)
+
+            setMyPlants(oldData => oldData.filter(item => item.id !== plant.id))
+         
+          } catch (error) {
+            Alert.alert('Não foi possivel remover!')
+          }
+        }
+      }
+    ])
+  }
+
+  if(loading)
+    return <Load />
 
   return (
     <Container>
@@ -56,7 +83,7 @@ const MyPlants: React.FC = () => {
           data={myPlants}
           keyExtractor={(item: any) => String(item.id)}
           renderItem={({item}: any) => (
-            <PlantCardSecondary name={item.name} photo={item.photo} hour={item.hour} />
+            <PlantCardSecondary handleRemove={() => handleRemove(item)} name={item.name} photo={item.photo} hour={item.hour} />
           )}
           showsVerticalScrollIndicator={false}
            />
