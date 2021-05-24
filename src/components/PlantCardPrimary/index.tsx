@@ -10,7 +10,7 @@ interface PlantCardPrimaryProps extends RectButtonProperties {
 
 const PlantCardPrimary: React.FC<PlantCardPrimaryProps> = ({ name, photo, ...rest }) => {
   return (
-    <Container>
+    <Container {...rest}>
       <Photo uri={photo}/>
       <Name>{name}</Name>
     </Container>

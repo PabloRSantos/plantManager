@@ -1,11 +1,11 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { Keyboard } from 'react-native';
+import { Alert, Keyboard } from 'react-native';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import Button from '../../components/Button';
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
-
-import { Container, Wrapper, Form, Emoji, Input, Text, Footer } from './styles';
+import { Container, Form, Emoji, Input, Text, Footer } from './styles';
 
 const UserIdentification: React.FC = () => {
   const [isFocused, setIsFocused] = useState(false)
@@ -28,6 +28,22 @@ const UserIdentification: React.FC = () => {
     setName(value)
   }
 
+  const handleSubmit = async () => {
+    if(!name) {
+      return Alert.alert('Me diz como chamar você 😢')
+    }
+
+    await AsyncStorage.setItem('@plantmanager:user', name)
+
+    navigation.navigate('Confirmation', {
+      title: 'Prontinho',
+      subtitle: 'Agora vamos começar a ciodar das suas plantinhas com muito cuidado.',
+      buttonTitle: 'Começar',
+      icon: 'smile',
+      nextScreen: 'PlantSelect'
+    })
+  }
+
   return (
     <Container>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -48,7 +64,7 @@ const UserIdentification: React.FC = () => {
           placeholder='Digite um nome' />
 
           <Footer>
-            <Button onPress={() => navigation.navigate('Confirmation')} />
+            <Button onPress={handleSubmit} />
           </Footer>
         </Form>
           </TouchableWithoutFeedback>
